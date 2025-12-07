@@ -1,23 +1,22 @@
 package factory;
 
 import enums.Cor;
+import enums.TipoJogador;
 import jogadores.*;
 
 public class JogadorFactory {
-    public static Jogador criarJogador(int tipo, int codigoCor) {
-        Cor corSelecionada;
-        switch (codigoCor) {
-            case 1: corSelecionada = Cor.VERMELHO; break;
-            case 2: corSelecionada = Cor.AZUL; break;
-            case 3: corSelecionada = Cor.AMARELO; break;
-            case 4: corSelecionada = Cor.VERDE; break;
-            default: corSelecionada = Cor.VERMELHO;break;
-        }
+	public static Jogador criarJogador(TipoJogador tipo, Cor cor, String corPeca) {
 
         switch (tipo) {
-            case 2: return new JogadorAzarado(corSelecionada);
-            case 3: return new JogadorSortudo(corSelecionada);
-            default: return new JogadorComun(corSelecionada);
+            case JOGADORCOMUM:
+                return new JogadorAzarado(cor, corPeca);
+
+            case JOGADORSORTUDO:
+                return new JogadorSortudo(cor, corPeca);
+
+            case JOGADORAZARADO:
+            default:
+                return new JogadorComum(cor, corPeca);
         }
     }
 }

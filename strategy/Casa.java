@@ -1,10 +1,19 @@
 package strategy;
 
 import jogadores.Jogador;
+import singleton.Tabuleiro;
 
-abstract class Casa {
-	protected Jogador jogador;
-	protected int numero;
-	
-	public abstract void aplicarRegra();
+public abstract class Casa {
+
+    protected int numero;
+
+    public Casa(int numero) {
+        this.numero = numero;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public abstract void aplicarRegra(Jogador jogador, Tabuleiro tabuleiro);
 }

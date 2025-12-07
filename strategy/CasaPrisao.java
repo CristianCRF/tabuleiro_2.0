@@ -3,14 +3,15 @@ package strategy;
 import jogadores.Jogador;
 import singleton.Tabuleiro;
 
-public class CasaSimples extends Casa{
-	public CasaSimples(int numero) {
+public class CasaPrisao extends Casa{
+
+	public CasaPrisao(int numero) {
 		super(numero);
 	}
-	
-	
+
 	@Override
 	public void aplicarRegra(Jogador jogador, Tabuleiro tabuleiro) {
-		jogador.incrementaMoedas();
+		jogador.setPreso(true);
 	}
+	
 }

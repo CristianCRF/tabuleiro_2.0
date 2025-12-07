@@ -9,25 +9,40 @@ public abstract class Jogador {
 	private int casa;
 	private int jogadas;
 	private int moedas; 
+	private boolean preso;
 
-	public Jogador(Cor cor) {
+	public Jogador(Cor cor, String corPeca) {
+		this.corPeca = corPeca;
 		this.cor = cor;
 		casa = 0;
 		jogadas = 0;
 		moedas = 0;
+		preso = false;
 	}
-
+	
 	public String getCorPeca() {
 		return corPeca;
+	}
+
+	public Cor getCor() {
+		return cor;
 	}
 	
 	public int getCasa() {
 		return casa;
 	}
 
-	public void setCasa(byte casa) { 
+	public void setCasa(int casa) { 
 		this.casa = casa; 
 	}
+	
+	public void avancarCasa(int passos) {
+       this.casa += passos;
+    }
+
+    public void voltarCasa(int passos) {
+       this.casa -= passos;
+    }
 	
 	public int getJogadas() {
 		return jogadas;
@@ -35,6 +50,10 @@ public abstract class Jogador {
 	
 	public void setJogadas(int jogadas) {
 		this.jogadas = jogadas;
+	}
+	
+	public void incrementaJogadas() {
+		this.jogadas++;
 	}
 	
 	public int getMoedas() {
@@ -45,7 +64,20 @@ public abstract class Jogador {
 		this.moedas = moedas;
 	}
 	
-	protected abstract byte movimento();
+	public void incrementaMoedas() {
+		this.moedas += 1;
+	}
+	
+	public boolean preso() {
+        return preso;
+    }
+
+    public void setPreso(boolean preso) {
+        this.preso = preso;
+    }
+
+	
+	protected abstract int movimento();
 
 	public String scores(String vencedorCor) {
 		if (!getCorPeca().equals(vencedorCor)) {

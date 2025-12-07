@@ -5,12 +5,12 @@ import enums.Cor;
 
 public class JogadorAzarado extends Jogador{
 
-	public JogadorAzarado(Cor cor) {
-		super(cor);
+	public JogadorAzarado(Cor cor, String corPeca) {
+		super(cor, corPeca);
 	}
 
 	@Override
-	protected byte movimento() {
+	protected int movimento() {
 		byte resultado;
 		do{
 			byte d1 = Dados.lancarDado1();

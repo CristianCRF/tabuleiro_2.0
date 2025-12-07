@@ -5,13 +5,13 @@ public enum TipoJogador {
 	JOGADORSORTUDO((byte)2),
 	JOGADORAZARADO((byte)3);
 	
-	private final int codigo;
+	private final byte codigo;
 	
-	TipoJogador(int codigo){
+	TipoJogador(byte codigo){
 		this.codigo = codigo;
 	}
 	
-	public int getCodigo() {
+	public byte getCodigo() {
 		return codigo;
 	}
 	
