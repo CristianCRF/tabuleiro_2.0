@@ -1,11 +1,9 @@
 package strategy;
 
 import enums.TipoJogador;
+import facade.JogoFacade;
 import factory.JogadorFactory;
-import jogadores.Jogador;
-import jogadores.JogadorAzarado;
-import jogadores.JogadorComum;
-import jogadores.JogadorSortudo;
+import jogadores.*;
 import singleton.Tabuleiro;
 import utils.Carta;
 
@@ -30,13 +28,14 @@ public class CasaSurpresa extends Casa {
 
 	@Override
 	public void aplicarRegra(Jogador jogador, Tabuleiro tabuleiro) {
-		byte escolha = tabuleiro.getJogo().escolherCarta(jogador);
+		byte escolha = JogoFacade.getInstance().escolherCarta(jogador); //uma ideia de como chamar do facade.
 		TipoJogador tipo = sortearCartas((byte)(escolha-1));
 		Jogador novo = JogadorFactory.criarJogador(tipo, jogador.getCor(), jogador.getCorPeca());
 		novo.setCasa(jogador.getCasa());
 		novo.setMoedas(jogador.getMoedas());
+		novo.setJogadas(jogador.getJogadas());
 		
 		
-		tabuleiro.substituirJogador(jogador, novo);
+		tabuleiro.substituirJogador(novo, jogador);
 	}	
 }

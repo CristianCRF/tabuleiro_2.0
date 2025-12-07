@@ -36,12 +36,12 @@ public abstract class Jogador {
 		this.casa = casa; 
 	}
 	
-	public void avancarCasa(int passos) {
-       this.casa += passos;
+	public void avancar() {
+       this.casa += 3;
     }
 
-    public void voltarCasa(int passos) {
-       this.casa -= passos;
+    public void voltar() {
+       this.casa -= 3;
     }
 	
 	public int getJogadas() {
