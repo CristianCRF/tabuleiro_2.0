@@ -1,10 +1,11 @@
 package jogadores;
 
 import utils.Dados;
+import enums.Cor;
 
 public class JogadorComun extends Jogador {
 
-	public JogadorComun(String cor) {
+	public JogadorComun(Cor cor) {
 		super(cor);
 	}
 

@@ -1,15 +1,17 @@
 package jogadores;
 
 import utils.Mensagens;
+import enums.Cor;
 
 public abstract class Jogador {
 	private String corPeca; 
+	private Cor cor;
 	private int casa;
 	private int jogadas;
 	private int moedas; 
 
-	public Jogador(String cor) {
-		this.corPeca = cor;
+	public Jogador(Cor cor) {
+		this.cor = cor;
 		casa = 0;
 		jogadas = 0;
 		moedas = 0;
