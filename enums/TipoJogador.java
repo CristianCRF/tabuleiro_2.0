@@ -1,4 +1,4 @@
-package utils;
+package enums;
 
 public enum TipoJogador {
 	JOGADORCOMUM((byte) 1),

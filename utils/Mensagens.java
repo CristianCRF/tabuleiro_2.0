@@ -1,5 +1,6 @@
 package utils;
 
+import enums.TipoJogador;
 import jogadores.Jogador;
 
 public class Mensagens {
