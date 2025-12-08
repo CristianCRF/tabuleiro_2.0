@@ -3,7 +3,7 @@ package facade;
 import java.util.Scanner;
 import singleton.Tabuleiro;
 import strategy.Casa;
-import strategy.CasaFactory;
+import factory.CasaFactory;
 import jogadores.Jogador;
 import factory.JogadorFactory;
 import enums.Cor;
