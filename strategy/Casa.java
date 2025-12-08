@@ -4,7 +4,6 @@ import jogadores.Jogador;
 import singleton.Tabuleiro;
 
 public abstract class Casa {
-
     protected int numero;
 
     public Casa(int numero) {
@@ -15,5 +14,11 @@ public abstract class Casa {
         return numero;
     }
 
+    // método do strategy
     public abstract void aplicarRegra(Jogador jogador, Tabuleiro tabuleiro);
+    
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName().replace("Casa", "");
+    }
 }
