@@ -79,6 +79,15 @@ public abstract class Jogador {
 	
 	protected abstract int movimento();
 
+	// lógica futura para a troca de posição entre jogadores
+	public void copiarEstado(Jogador outro) {
+        this.casa = outro.casa;
+        this.jogadas = outro.jogadas;
+        this.moedas = outro.moedas;
+        this.preso = outro.preso;
+        this.jogaNovamente = outro.jogaNovamente;
+    }
+
 	public String scores(String vencedorCor) {
 		if (!getCorPeca().equals(vencedorCor)) {
 			return "\nPeça " + getCorPeca() + Mensagens.REPETITIVOS[2] + getJogadas() 
