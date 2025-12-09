@@ -13,8 +13,8 @@ public class JogadorSortudo extends Jogador{
 	protected int movimento() {
 		int resultado;
 		do{
-			int d1 = Dados.lancarDado1();
-			int d2 = Dados.lancarDado2();
+			int d1 = Dados.lancarDado1(4, 6);
+			int d2 = Dados.lancarDado2(3, 6);
 			resultado = (byte)(d1 + d2);
 		}
 		while(resultado < 7);

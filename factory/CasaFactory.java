@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import enums.TipoCasa;
-import strategy.Casa;
-import strategy.CasaPrisao;
-import strategy.CasaSimples;
-import strategy.CasaSurpresa;
+import strategy.*;
 
 public class CasaFactory {
 	public static Casa criarCasa(int numero, Map<TipoCasa, List<Integer>> config) {
@@ -15,13 +12,16 @@ public class CasaFactory {
 			TipoCasa tipo = obj.getKey();
 			List<Integer> casaPosicoes = obj.getValue();
 			
-			if(casaPosicoes.contains(numero)) { //em facade so vai receber o que nao for simples.
-				switch(tipo) {
-					case SIMPLES: return new CasaSimples(numero);
-					case SURPRESA: return new CasaSurpresa(numero);
-					case PRISAO: return new CasaPrisao(numero);
-				}
-			}
+			if(!casaPosicoes.contains(numero)) {continue;}
+			return switch(tipo) {
+				case PRISAO -> new CasaPrisao(numero);
+				case SURPRESA -> new CasaSurpresa(numero);
+				case SORTE ->new CasaSorte(numero);
+				case AZAR -> new CasaAzar(numero);
+				case REVERSA -> new CasaReversa(numero);
+				case JOGADUASVEZES -> new CasaJogaDeNovo(numero);
+				default -> throw new IllegalArgumentException("Erro inesperado de tipo de casa: " + tipo);
+			};
 		}
 		return new CasaSimples(numero);
 	}

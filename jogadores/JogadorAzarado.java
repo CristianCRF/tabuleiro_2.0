@@ -13,8 +13,8 @@ public class JogadorAzarado extends Jogador{
 	protected int movimento() {
 		int resultado;
 		do{
-			int d1 = Dados.lancarDado1();
-			int d2 = Dados.lancarDado2();
+			int d1 = Dados.lancarDado1(1, 4);
+			int d2 = Dados.lancarDado2(1, 4);
 			resultado = d1 + d2;
 		}
 		while(resultado > 6);

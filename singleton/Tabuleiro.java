@@ -8,6 +8,7 @@ import enums.TipoCasa;
 import factory.CasaFactory;
 import jogadores.Jogador;
 import strategy.Casa;
+import strategy.CasaInicial;
 
 public class Tabuleiro {
 	private static Tabuleiro instancia;
@@ -15,11 +16,15 @@ public class Tabuleiro {
 	private List<Jogador> jogadores;
 	private List<Casa> casas;
 	private final int tamanho;
+	private int rodadas;
 
     private Tabuleiro(int tamanho, Map<TipoCasa, List<Integer>> config) {
-    	this.jogadores = new ArrayList<>();
-    	this.casas = new ArrayList<>();
+    	jogadores = new ArrayList<>();
+    	casas = new ArrayList<>();
     	this.tamanho = tamanho;
+    	rodadas = 0;
+    	casas.add(new CasaInicial(0)); //CasaInicial em 0
+    	
         for (int i = 1; i <= this.tamanho; i++) {
             casas.add(CasaFactory.criarCasa(i, config));
         }
@@ -33,11 +38,9 @@ public class Tabuleiro {
     }
     
     public static Tabuleiro getInstancia() {
+    	if (instancia == null)
+    		throw new IllegalStateException("Tabuleiro ainda não foi inicializado!");
     	return instancia;
-    }
-
-    public void addJogador(Jogador jogador) {
-    	jogadores.add(jogador);
     }
     
     public List<Jogador> getJogadores(){
@@ -45,10 +48,24 @@ public class Tabuleiro {
     }
     
     public Casa getCasa(int n) {
-        return casas.get(n - 1);
+    	if (n < 0 || n > tamanho)
+    		throw new IllegalArgumentException("Casa fora dos limites: " + n);
+        return casas.get(n);
     }
     
-    public void substituirJogador(Jogador novo, Jogador antigo) {
+    public int getRodadas() {
+		return rodadas;
+	}
+    
+    public void incrementaRodadas() {
+    	rodadas++;
+    }
+
+    public void addJogador(Jogador jogador) {
+    	jogadores.add(jogador);
+    }
+    
+    public void substituirJogador(Jogador antigo, Jogador novo) {
     	int index = jogadores.indexOf(antigo);
     	if(index >= 0) {
     		jogadores.set(index, novo);

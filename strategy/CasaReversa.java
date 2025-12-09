@@ -11,9 +11,8 @@ public class CasaReversa extends Casa {
 
 	@Override
 	public void aplicarRegra(Jogador jogador, Tabuleiro tabuleiro) {
-		Jogador ultimo = tabuleiro.getUltimoJogador(); // método que vamos criar no Tabuleiro
+		Jogador ultimo = tabuleiro.getUltimoJogador(); 
 
-        // Trocar posições
         int posAtual = jogador.getCasa();
         int posUltimo = ultimo.getCasa();
 
