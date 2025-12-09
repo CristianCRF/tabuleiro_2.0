@@ -15,7 +15,7 @@ public class Tabuleiro {
 	
 	private List<Jogador> jogadores;
 	private List<Casa> casas;
-	private final int tamanho;
+	private final int tamanho; //maximo so pode ser 100 (ninguem vai jogar mais que isso msm plamordeDeus)
 	private int rodadas;
 
     private Tabuleiro(int tamanho, Map<TipoCasa, List<Integer>> config) {
@@ -51,6 +51,10 @@ public class Tabuleiro {
     	if (n < 0 || n > tamanho)
     		throw new IllegalArgumentException("Casa fora dos limites: " + n);
         return casas.get(n);
+    }
+    
+    public int getTamanho() {
+    	return tamanho;
     }
     
     public int getRodadas() {
