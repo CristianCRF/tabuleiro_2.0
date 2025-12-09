@@ -1,84 +1,91 @@
 package utils;
 
-import enums.TipoJogador;
 import jogadores.Jogador;
 
 public class Mensagens {
-	public static final String[] REPETITIVOS = {"\nA peça ", " avançou para a casa ",
-			":\nQuantidade de jogadas: ", "\nMoedas adquiridas: "};
+	public static final String APECA = "\nA peça ";
+	public static final String AVANCOU = " avançou para a casa ";
+	public static final String QUANTJOGADAS = ":\nQuantidade de jogadas: ";
+	public static final String QUANTMOEDAS = "\nMoedas adquiridas: ";
 	
-	private Jogador jogadorAtributos;
+	private static String repetitivo(Jogador jogador) {
+	    return APECA + jogador.getNomeCorPeca() + AVANCOU + jogador.getCasa();
+	}
 	
-	public Mensagens(Jogador jogador) {
-		jogadorAtributos = jogador; 
-	} 
-	
-	public static String dadosJogados(byte d1, byte d2, byte result) {
+	public static String msgDadosJogados(int d1, int d2, int result) {
 		return "Dados lançados...\n"
 				+"D1: "+d1+"  D2: "+d2
 				+"\nResultado: "+result;
 	}
 	
-	public static String dadosJogados(int d1, int d2, int result) {
-		return "Dados lançados...\n"
-				+"D1: "+d1+"  D2: "+d2
-				+"\nResultado: "+result;
+	public static String msgCaiuEmCasaSimples(Jogador jogador) {
+		return repetitivo(jogador)+", ganha mais uma moeda!!!";
 	}
 	
-	public String pularRodada() {
-		return REPETITIVOS[0]+jogadorAtributos.getCorPeca()+REPETITIVOS[1]
-				+jogadorAtributos.getCasa()+", sua proxima rodada sera pulada.";
-	}
-	
-	public String cartas() {
-		return REPETITIVOS[0]+jogadorAtributos.getCorPeca()+REPETITIVOS[1]
-				+jogadorAtributos.getCasa()+" e foi comtemplado para puxar as carta!!!!\n"
+	public static String msgCaiuEmCasaSurpresa(Jogador jogador) {
+		return repetitivo(jogador)+" e foi contemplado para puxar as cartas!!!!\n"
 				+"Escolha uma das cartas que mudaram seu tipo de jogador.\n"+
 				"[1] [2] [3]";
 	}
 	
-	public String casaDaSorte(byte tipo) {
-		if(TipoJogador.fromCodigo(tipo) == TipoJogador.JOGADORAZARADO) {
-			return REPETITIVOS[0]+jogadorAtributos.getCorPeca()+REPETITIVOS[1]
-					+jogadorAtributos.getCasa()+", Porém o efeito da casa "+
-					"\nfoi anulado pela sua maré de má sorte :(";
-		}
-		else {
-			return REPETITIVOS[0]+jogadorAtributos.getCorPeca()+REPETITIVOS[1]
-					+jogadorAtributos.getCasa()+" e avançou mais 3 casas!!";
-		}
+	public static String msgCaiuEmCasaPrisao(Jogador jogador) {
+		return repetitivo(jogador)+", não jogará na proxima rodada.";
 	}
 	
-	public String voltarAoInicio() {
-		return "\n"+jogadorAtributos.getCorPeca()+REPETITIVOS[1]+jogadorAtributos.getCasa()
-				+", um jogador de sua escolha\n"
-				+"irá voltar para o inicio.";
+	public static String msgFoiPulado(Jogador jogador) {
+		return APECA+ jogador.getNomeCorPeca() + " teve a vez pulada!!!";
 	}
 	
-	public String casaMagica(byte oUltimo) {
-		if(oUltimo == jogadorAtributos.getCasa()) {
-			return REPETITIVOS[0]+jogadorAtributos.getCorPeca()+REPETITIVOS[1]
-					+jogadorAtributos.getCasa()+".\n"
-					+"Mas como este é o ultimo do tabuleiro, não terá efeito algum.";
-		}
-		else {
-			return REPETITIVOS[0]+jogadorAtributos.getCorPeca()+REPETITIVOS[1]
-					+jogadorAtributos.getCasa()+".\n"
-					+"trocará de posição com o ultimo do tabuleiro.";
-		}
+	public static String introducaoCasaSorteAzar(Jogador jogador) { //chamado antes dos metodos.
+		return repetitivo(jogador);
 	}
 	
-	public String duasVezes() { 
-		return REPETITIVOS[0]+jogadorAtributos.getCorPeca()+" tirou dois dados iguais!!\n"
-				+"poderá jogar esta partida mais uma vez.";
+	public static String msgCasaSorteEfeito() {
+		return " e avançou mais 3 casas!!";
 	}
 	
-	public String vencedorFimDeJogo() {  
-		return REPETITIVOS[0]+jogadorAtributos.getCorPeca()+" chegou no fim do tabuleiro!!!!"
+	public static String msgCasaSorteNulo() {
+		return ", Porém o efeito da casa foi anulado pela sua maré de má sorte :(";
+	}
+	
+	public static String msgCasaAzarEfeito() {
+		return " e voltou 3 casas!!!";
+	}
+	
+	public static String msgCasaAzarNulo() {
+		return ", Porém o efeito da casa "+
+				"\nfoi anulado pela sua maré de boas energias meu Djavan :)";
+	}
+	
+	public static String msgCasaReversa(Jogador jogador) { 
+		return repetitivo(jogador)+"\n, irá trocar com o ultimo no tabuleiro.";
+	}
+	
+	public static String msgCaiuEmCasaJogaDeNovo(Jogador jogador) { 
+		return repetitivo(jogador)+" e poderá jogar esta rodada mais uma vez.";
+	}
+	
+	public static String msgVencedorFimDeJogo(Jogador jogador) {  
+		return APECA+jogador.getNomeCorPeca()+" chegou no fim do tabuleiro!!!!"
 				+"\nVocê ganhou no melhor jogo de tabuleiro da UECE!!!!";
 	}
 	
-	public String scores(String vencedorCor) { 
-		return jogadorAtributos.scores(vencedorCor);
+	public static String scores(Jogador vencedor, Jogador outros) {
+		if (!outros.getNomeCorPeca().equals(vencedor.getNomeCorPeca())) {
+			return "\nPeça " + outros.getNomeCorPeca() + Mensagens.QUANTJOGADAS + outros.getJogadas() 
+			+ Mensagens.QUANTMOEDAS + outros.getMoedas()
+			+ ".\nUltima casa: " + outros.getCasa();
+		} else {
+			if (vencedor.getCasa() == 40) {
+				return "\nNOSSO VENCEDOR " + vencedor.getNomeCorPeca() + Mensagens.QUANTJOGADAS + 
+						vencedor.getJogadas() 
+				+ Mensagens.QUANTMOEDAS + vencedor.getMoedas()
+				+ "\nUltima casa: " + vencedor.getCasa();
+			} else {
+				return "\nNOSSO VENCEDOR " + vencedor.getNomeCorPeca() + Mensagens.QUANTJOGADAS + 
+						vencedor.getJogadas()
+						+ String.format(".%nUltima casa: Foi ao infinito e alem. (%d)", vencedor.getCasa());
+			}
+		}
 	}
 }

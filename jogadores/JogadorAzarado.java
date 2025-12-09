@@ -11,11 +11,11 @@ public class JogadorAzarado extends Jogador{
 
 	@Override
 	protected int movimento() {
-		byte resultado;
+		int resultado;
 		do{
-			byte d1 = Dados.lancarDado1();
-			byte d2 = Dados.lancarDado2();
-			resultado = (byte)(d1 + d2);
+			int d1 = Dados.lancarDado1();
+			int d2 = Dados.lancarDado2();
+			resultado = d1 + d2;
 		}
 		while(resultado > 6);
 		return resultado;
