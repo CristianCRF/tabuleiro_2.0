@@ -9,6 +9,7 @@ import utils.Carta;
 
 public class CasaSurpresa extends Casa {
 	private Carta cartas[] = new Carta[3];
+	private int escolha;
 	
 	public CasaSurpresa(int numero) {
 		super(numero);
@@ -21,21 +22,24 @@ public class CasaSurpresa extends Casa {
 		}
 	}
 	
-	private TipoJogador sortearCartas(byte escolha) {
+	private TipoJogador sortearCartas(int escolha) {
 		byte valor = cartas[escolha].tirarCarta();
 		return TipoJogador.fromCodigo(valor);
+	}
+	
+	public void escolherCarta(int escolha) {
+		this.escolha = escolha;
 	}
 
 	@Override
 	public void aplicarRegra(Jogador jogador, Tabuleiro tabuleiro) {
-		byte escolha = JogoFacade.getInstance().escolherCarta(jogador); //uma ideia de como chamar do facade.
-		TipoJogador tipo = sortearCartas((byte)(escolha-1));
-		Jogador novo = JogadorFactory.criarJogador(tipo, jogador.getCor(), jogador.getCorPeca());
+		TipoJogador tipo = sortearCartas((escolha-1));
+		Jogador novo = JogadorFactory.criarJogador(tipo, jogador.getCor(), jogador.getNomeCorPeca());
 		novo.setCasa(jogador.getCasa());
 		novo.setMoedas(jogador.getMoedas());
 		novo.setJogadas(jogador.getJogadas());
 		
 		
-		tabuleiro.substituirJogador(novo, jogador);
+		tabuleiro.substituirJogador(jogador, novo);
 	}	
 }

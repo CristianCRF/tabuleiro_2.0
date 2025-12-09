@@ -5,7 +5,7 @@ import singleton.Tabuleiro;
 
 public abstract class Casa {
 
-    protected int numero;
+    private final int numero;
 
     public Casa(int numero) {
         this.numero = numero;

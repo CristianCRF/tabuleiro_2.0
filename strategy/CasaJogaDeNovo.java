@@ -3,15 +3,15 @@ package strategy;
 import jogadores.Jogador;
 import singleton.Tabuleiro;
 
-public class CasaPrisao extends Casa{
+public class CasaJogaDeNovo extends Casa{
 
-	public CasaPrisao(int numero) {
+	public CasaJogaDeNovo(int numero) {
 		super(numero);
 	}
 
 	@Override
 	public void aplicarRegra(Jogador jogador, Tabuleiro tabuleiro) {
-		jogador.setEstadoPreso(true);
+		jogador.setEstadoDeJogarDenovo(true);
 	}
-	
+
 }
