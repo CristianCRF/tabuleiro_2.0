@@ -85,6 +85,6 @@ public abstract class Jogador {
 		moedas += 1;
 	}
 	
-	protected abstract int movimento();
+	public abstract int movimento();
 	
 }

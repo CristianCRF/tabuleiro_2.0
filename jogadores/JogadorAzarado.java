@@ -10,7 +10,7 @@ public class JogadorAzarado extends Jogador{
 	}
 
 	@Override
-	protected int movimento() {
+	public int movimento() {
 		int resultado;
 		do{
 			int d1 = Dados.lancarDado1(1, 4);

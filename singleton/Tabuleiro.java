@@ -66,6 +66,7 @@ public class Tabuleiro {
     }
 
     public void addJogador(Jogador jogador) {
+    	jogador.setCasa(0);
     	jogadores.add(jogador);
     }
     
