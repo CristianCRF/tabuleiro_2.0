@@ -1,6 +1,8 @@
 package utils;
 
+import enums.TipoJogador;
 import jogadores.Jogador;
+import singleton.Tabuleiro;
 
 public class MensagensTabuleiro {
 	public static final String APECA = "\nA peça ";
@@ -29,8 +31,13 @@ public class MensagensTabuleiro {
 	
 	public static String msgCaiuEmCasaSurpresa(Jogador jogador) {
 		return repetitivo(jogador)+" e foi contemplado para puxar as cartas!!!!\n"
-				+"Escolha uma das cartas que mudaram seu tipo de jogador.\n"+
-				"[1] [2] [3]";
+				+"Escolha uma das cartas que mudaram seu tipo de jogador.\n"
+				+"[1] [2] [3]\n"
+				+": ";
+	}
+	
+	public static String msgTipoTrocado(Jogador jogador, TipoJogador tipo) {
+		return APECA+jogador.getNomeCorPeca()+" teve tipo alterado para "+tipo;
 	}
 	
 	public static String msgCaiuEmCasaPrisao(Jogador jogador) {
@@ -46,24 +53,28 @@ public class MensagensTabuleiro {
 	}
 	
 	public static String msgCasaSorteEfeito() {
-		return " e avançou mais 3 casas!!";
+		return "e avançou mais 3 casas!!";
 	}
 	
 	public static String msgCasaSorteNulo() {
-		return ", Porém o efeito da casa foi anulado pela sua maré de má sorte :(";
+		return "Porém o efeito da casa foi anulado pela sua maré de má sorte :(";
 	}
 	
 	public static String msgCasaAzarEfeito() {
-		return " e voltou 3 casas!!!";
+		return "e voltou 3 casas!!!";
 	}
 	
 	public static String msgCasaAzarNulo() {
-		return ", Porém o efeito da casa "+
-				"\nfoi anulado pela sua maré de boas energias meu Djavan :)";
+		return "Porém o efeito da casa "
+				+"foi anulado pela sua maré de boas energias meu Djavan :)";
 	}
 	
 	public static String msgCasaReversa(Jogador jogador) { 
-		return repetitivo(jogador)+"\n, irá trocar com o ultimo no tabuleiro.";
+		return repetitivo(jogador)+", irá trocar com o ultimo no tabuleiro.";
+	}
+	
+	public static String msgCasaReversaNulo(Jogador jogador) { 
+		return "mas como é o ultimo do tabuleiro, nao tera efeito.";
 	}
 	
 	public static String msgCaiuEmCasaJogaDeNovo(Jogador jogador) { 
@@ -75,13 +86,13 @@ public class MensagensTabuleiro {
 				+"\nVocê ganhou no melhor jogo de tabuleiro da UECE!!!!";
 	}
 	
-	public static String scores(Jogador vencedor, Jogador outros) {
+	public static String scores(Jogador vencedor, Jogador outros, int TamanhoTabuleiro) {
 		if (!outros.getNomeCorPeca().equals(vencedor.getNomeCorPeca())) {
 			return "\nPeça " + outros.getNomeCorPeca() + MensagensTabuleiro.QUANTJOGADAS + outros.getJogadas() 
 			+ MensagensTabuleiro.QUANTMOEDAS + outros.getMoedas()
 			+ ".\nUltima casa: " + outros.getCasa();
 		} else {
-			if (vencedor.getCasa() == 40) {
+			if (vencedor.getCasa() == TamanhoTabuleiro) {
 				return "\nNOSSO VENCEDOR " + vencedor.getNomeCorPeca() + MensagensTabuleiro.QUANTJOGADAS + 
 						vencedor.getJogadas() 
 				+ MensagensTabuleiro.QUANTMOEDAS + vencedor.getMoedas()
@@ -89,6 +100,7 @@ public class MensagensTabuleiro {
 			} else {
 				return "\nNOSSO VENCEDOR " + vencedor.getNomeCorPeca() + MensagensTabuleiro.QUANTJOGADAS + 
 						vencedor.getJogadas()
+						+ MensagensTabuleiro.QUANTMOEDAS + outros.getMoedas()
 						+ String.format(".%nUltima casa: Foi ao infinito e alem. (%d)", vencedor.getCasa());
 			}
 		}

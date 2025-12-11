@@ -29,7 +29,7 @@ public class PrintaTabuleiro {
 	    	if (excludedValues.contains(i)) {//pula para quebrar linha
 	    	    System.out.println();
 	    	}
-	    	System.out.print("[" + conteudo + "] ");
+	    	System.out.print("[" + conteudo + "]");
 	    }
 
 	    	System.out.println();

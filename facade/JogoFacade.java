@@ -11,7 +11,11 @@ import java.util.Set;
 import enums.*;
 import factory.JogadorFactory;
 import jogadores.Jogador;
+import jogadores.JogadorAzarado;
 import singleton.Tabuleiro;
+import strategy.Casa;
+import strategy.CasaSorte;
+import strategy.CasaSurpresa;
 import utils.*;
 import view.PrintaTabuleiro;
 
@@ -52,6 +56,8 @@ public class JogoFacade {
                 if (jogadorAtual.getEstadoPreso()) {
                     jogadorAtual.setEstadoPreso(false);
                     System.out.println(MensagensTabuleiro.msgFoiPulado(jogadorAtual));
+                    System.out.println(MensagensGeral.msgContinuar());
+                    sc.nextLine();
                     continue;
                 }
 
@@ -63,17 +69,13 @@ public class JogoFacade {
                     jogadorAtual.incrementaJogadas();
                     if (jogadorVencedor != null) {return;}
                     continua = jogadorAtual.getEstadoDeJogarDenovo();
+                    jogadorAtual.setEstadoDeJogarDenovo(false);
                 }
                 
                 finalizarTurno();
             }
         }
     }
-	
-	private void finalizarTurno() {
-		System.out.println("resultados finais: ");
-		PrintaTabuleiro.imprimir(tabuleiro);
-	}
     
 	//iniciar jogo
     public void menu() {
@@ -198,13 +200,30 @@ public class JogoFacade {
     }
     
     private void executarTurno() {
-    	ultimoResultadoDados = jogadorAtual.movimento();
-    	System.out.println(MensagensTabuleiro.msgDadosJogados(Dados.getDado1(),
-    			Dados.getDado2(), ultimoResultadoDados));
+    	if(modoDebug == false) {
+	    	ultimoResultadoDados = jogadorAtual.movimento();
+	    	System.out.println(MensagensTabuleiro.msgDadosJogados(Dados.getDado1(),
+	    			Dados.getDado2(), ultimoResultadoDados));
+    	}
+    	else {
+    		System.out.println("Posiçoes do tabuleiro: 1 a "+tamanhoTabuleiro);
+    		System.out.print("digite a posição para ir: ");
+    		int posicao = sc.nextInt();
+    		while(posicao < 1) {
+    			System.out.println(MensagensGeral.msgValorInvalido());
+    			posicao = sc.nextInt();
+    		}
+    		sc.nextLine();
+    		ultimoResultadoDados = posicao;
+    	}
     }
     
 	private void movimentaParaCasa() {
-		int mudarPara = jogadorAtual.getCasa() + ultimoResultadoDados;
+		int mudarPara;
+		if(modoDebug == true) {mudarPara = ultimoResultadoDados;}
+		else {
+			mudarPara= jogadorAtual.getCasa() + ultimoResultadoDados;
+		}
 		jogadorAtual.setCasa(mudarPara);
 		if(jogadorAtual.getCasa() >= tamanhoTabuleiro) {
 			jogadorVencedor = jogadorAtual;
@@ -213,17 +232,88 @@ public class JogoFacade {
 	}
 	
 	private void aplicarCasa() {
-		tabuleiro.getCasa(jogadorAtual.getCasa()).aplicarRegra(jogadorAtual, tabuleiro);
+		tabuleiro.getCasa(jogadorAtual.getCasa()).aplicarRegra(jogadorAtual, tabuleiro, instancia);
 	}
 	
- // util
+	private void finalizarTurno() {
+		System.out.println("resultados: ");
+		imprimirTabuleiro();
+		System.out.println("\n"+MensagensGeral.msgContinuar());
+		sc.nextLine();
+	}
+	
+	//finalizar jogo(vencedor, scores, mensaggem adeus.)
+	public void finalizarJogo() {
+ 		System.out.println(MensagensTabuleiro.msgVencedorFimDeJogo(jogadorAtual));
+ 		for(int i=0; i<tabuleiro.getJogadores().size(); i++) {
+ 			jogadorAtual = tabuleiro.getJogadores().get(i);
+ 			if(!jogadorAtual.equals(jogadorVencedor)) {
+ 				System.out.println(MensagensTabuleiro.scores(jogadorVencedor,
+ 						jogadorAtual, tamanhoTabuleiro));
+ 			}
+ 		}
+ 		System.out.println(MensagensTabuleiro.scores(jogadorVencedor,
+ 				jogadorVencedor, tamanhoTabuleiro));
+ 		System.out.println(MensagensGeral.msgFinal());
+ 		System.exit(0);	
+ 	}
+	
+	// util
+	public int lerOpcaoCarta() { //metodo para que CasaSurpresa set escolha.
+		int escolha = sc.nextInt();
+		while(escolha > 3 || escolha < 1) {
+			System.out.println(MensagensGeral.msgValorInvalido());
+			escolha = sc.nextInt();
+		}
+		sc.nextLine();
+		return escolha;
+	}
+	
  	private void imprimirTabuleiro() {
  		PrintaTabuleiro.imprimir(tabuleiro);
  	}
  	
- 	public void finalizarJogo() {
- 		System.out.println(MensagensTabuleiro.msgVencedorFimDeJogo(jogadorAtual));
- 		System.out.println(MensagensGeral.msgFinal());
- 		System.exit(0);
+ 	public void mensagensCasas(ResultadoCasas resultados, Jogador jogadorAtual) { //chamado nas casas
+ 		switch(resultados) {
+ 			case SIMPLES:
+ 				System.out.println(MensagensTabuleiro.msgCaiuEmCasaSimples(jogadorAtual));
+ 				break;
+ 			case SURPRESA:
+ 				System.out.print(MensagensTabuleiro.msgCaiuEmCasaSurpresa(jogadorAtual));
+				break;
+ 			case PRISAO:
+ 				System.out.println(MensagensTabuleiro.msgCaiuEmCasaPrisao(jogadorAtual));
+				break;
+ 			case AZAR_SORTE_INTRO:
+				System.out.println(MensagensTabuleiro.introducaoCasaSorteAzar(jogadorAtual));
+				break;
+ 			case SORTE_NULO:
+ 				System.out.println(MensagensTabuleiro.msgCasaSorteNulo());
+				break;
+			case SORTE_OK:
+				System.out.println(MensagensTabuleiro.msgCasaSorteEfeito());
+				break;
+			case AZAR_NULO:
+				System.out.println(MensagensTabuleiro.msgCasaAzarNulo());
+				break;
+			case AZAR_OK:
+				System.out.println(MensagensTabuleiro.msgCasaAzarEfeito());
+				break;
+			case JOGADENOVO:
+				System.out.println(MensagensTabuleiro.msgCaiuEmCasaJogaDeNovo(jogadorAtual));
+				break;
+			case REVERSA:
+				System.out.println(MensagensTabuleiro.msgCasaReversa(jogadorAtual));
+				break;
+			case REVERSA_NULO:
+				System.out.println(MensagensTabuleiro.msgCasaReversaNulo(jogadorAtual));
+				break;
+			default:
+				break;
+ 		}
+ 	}
+ 	
+ 	public void mensagemCasaSurpresaTipo(Jogador jogadorAtual, TipoJogador tipo) {
+ 		System.out.println(MensagensTabuleiro.msgTipoTrocado(jogadorAtual, tipo));
  	}
 }

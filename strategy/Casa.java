@@ -1,5 +1,6 @@
 package strategy;
 
+import facade.JogoFacade;
 import jogadores.Jogador;
 import singleton.Tabuleiro;
 
@@ -15,5 +16,5 @@ public abstract class Casa {
         return numero;
     }
 
-    public abstract void aplicarRegra(Jogador jogador, Tabuleiro tabuleiro);
+    public abstract void aplicarRegra(Jogador jogador, Tabuleiro tabuleiro, JogoFacade jogoFacade);
 }
