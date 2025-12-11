@@ -11,11 +11,7 @@ import java.util.Set;
 import enums.*;
 import factory.JogadorFactory;
 import jogadores.Jogador;
-import jogadores.JogadorAzarado;
 import singleton.Tabuleiro;
-import strategy.Casa;
-import strategy.CasaSorte;
-import strategy.CasaSurpresa;
 import utils.*;
 import view.PrintaTabuleiro;
 
@@ -89,6 +85,7 @@ public class JogoFacade {
     		modoDebug = true;
     	}
     	else if(menuOpcao == 0) {
+    		System.out.println("\n".repeat(3));
     		System.out.println(MensagensGeral.msgSairMenu());
     		System.exit(0);
     	}
@@ -250,11 +247,13 @@ public class JogoFacade {
  			if(!jogadorAtual.equals(jogadorVencedor)) {
  				System.out.println(MensagensTabuleiro.scores(jogadorVencedor,
  						jogadorAtual, tamanhoTabuleiro));
+ 				System.out.println(MensagensGeral.msgContinuar());
+ 				sc.nextLine();
  			}
  		}
  		System.out.println(MensagensTabuleiro.scores(jogadorVencedor,
  				jogadorVencedor, tamanhoTabuleiro));
- 		System.out.println(MensagensGeral.msgFinal());
+ 		System.out.println("\n\n"+MensagensGeral.msgFinal());
  		System.exit(0);	
  	}
 	

@@ -1,7 +1,5 @@
 package main;
 
-import enums.Cor;
-
 // main -> jogo -> tabuleiro -> jogadores e casas
 
 import facade.JogoFacade;

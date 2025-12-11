@@ -2,7 +2,6 @@ package utils;
 
 import enums.TipoJogador;
 import jogadores.Jogador;
-import singleton.Tabuleiro;
 
 public class MensagensTabuleiro {
 	public static final String APECA = "\nA peça ";
