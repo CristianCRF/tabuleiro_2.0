@@ -3,6 +3,7 @@ package facade;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -76,11 +77,23 @@ public class JogoFacade {
 	//iniciar jogo
     public void menu() {
     	System.out.print(MensagensGeral.msgBoasVindas());
-    	int menuOpcao = sc.nextInt();
-    	while(menuOpcao > 2 || menuOpcao < 0) {
-    		System.out.print(MensagensGeral.msgOpcaoInvalida());
-    		menuOpcao = sc.nextInt();
+    	Integer menuOpcao = null;
+    	while(menuOpcao == null) {
+    		try{
+    			menuOpcao = sc.nextInt();
+    	
+		    	while(menuOpcao > 2 || menuOpcao < 0) {
+		    		System.out.print(MensagensGeral.msgOpcaoInvalida());
+		    		menuOpcao = null;
+		    	}
+    		}
+	    	catch (InputMismatchException e) {
+				System.out.println(MensagensGeral.msgValorInvalido());
+				sc.nextLine();
+			}
     	}
+    	sc.nextLine();
+    	
     	if(menuOpcao == 2) {
     		modoDebug = true;
     	}
@@ -94,10 +107,19 @@ public class JogoFacade {
     public void configurarTabuleiro() {   	
     	System.out.println(MensagensGeral.LIMPARTELA);
     	System.out.print(MensagensGeral.msgConfigurarTamanhoTabuleiro());
-    	int tamanho = sc.nextInt();
-    	while(tamanho > 100 || tamanho < 10) {
-    		System.out.print(MensagensGeral.msgValorInvalido());
-    		tamanho = sc.nextInt();
+    	Integer tamanho = null;
+    	while(tamanho == null) {
+    		try {
+		    	tamanho = sc.nextInt();
+		    	while(tamanho > 100 || tamanho < 10) {
+		    		System.out.print(MensagensGeral.msgValorInvalido());
+		    		tamanho = sc.nextInt();
+		    	}
+    		}
+    		catch(InputMismatchException e) {
+    			System.out.println(MensagensGeral.msgValorInvalido());
+    			sc.nextLine();
+    		}
     	}
     	System.out.println(MensagensGeral.ESPACOMAIOR);
     	sc.nextLine();
@@ -153,33 +175,49 @@ public class JogoFacade {
     
     public void configurarEAddPecas() {
     	System.out.println(MensagensGeral.LIMPARTELA);
-    	System.out.println(MensagensGeral.msgConfigurarQuantidadeJogadores());
-    	int quantJogadores = sc.nextInt();
-    	while(quantJogadores > 6 || quantJogadores < 1) {
-    		System.out.print(MensagensGeral.msgValorInvalido());
-    		quantJogadores = sc.nextInt();
-    	}
-    	System.out.println(MensagensGeral.LIMPARTELA);
-    	
-    	System.out.println(MensagensGeral.msgConfigurarTipoJogadores());
-    	Jogador jogador;
-    	for(int i=0; i<quantJogadores; i++) {
-    		System.out.print(MensagensGeral.msgEscolherTiposJogadores(i));
-    		int tipoPeca = sc.nextInt();
-    		sc.nextLine();
-    		
-    		if(tipoPeca > 3 || tipoPeca < 1) {
-    			System.out.println(MensagensGeral.msgTipoInvalido());
-    			tipoPeca = 1;
-    			System.out.println(MensagensGeral.msgContinuar());
-    			sc.nextLine();
-    		}
-    		
-    		System.out.println(MensagensGeral.ESPACOMAIOR);
-    		TipoJogador tipoJogador = TipoJogador.values()[tipoPeca-1];
-    		Cor cor = Cor.values()[i];
-    		jogador = JogadorFactory.criarJogador(tipoJogador, cor, cor.toString());
-    		tabuleiro.addJogador(jogador);
+    	System.out.print(MensagensGeral.msgConfigurarQuantidadeJogadores());
+    	Integer quantJogadores = null;
+    	while(quantJogadores == null) {
+	    	try {
+		    	quantJogadores = sc.nextInt();
+		    	while(quantJogadores > 6 || quantJogadores < 1) {
+		    		System.out.print(MensagensGeral.msgValorInvalido());
+		    		quantJogadores = sc.nextInt();
+		    	}
+		    	System.out.println(MensagensGeral.LIMPARTELA);
+		    	
+		    	System.out.println(MensagensGeral.msgConfigurarTipoJogadores());
+		    	Jogador jogador;
+		    	for(int i=0; i<quantJogadores; i++) {
+		    		System.out.print(MensagensGeral.msgEscolherTiposJogadores(i));
+		    		int tipoPeca; 
+		    		try{tipoPeca = sc.nextInt();}
+		    		catch(InputMismatchException e) {
+		    			System.out.println("valor alterado para Comum.");
+		    			System.out.println(MensagensGeral.msgContinuar());
+		    			sc.nextLine();
+		    			tipoPeca = 1;
+		    		}
+		    		sc.nextLine();
+		    		
+		    		if(tipoPeca > 3 || tipoPeca < 1) {
+		    			System.out.println(MensagensGeral.msgTipoInvalido());
+		    			tipoPeca = 1;
+		    			System.out.println(MensagensGeral.msgContinuar());
+		    			sc.nextLine();
+		    		}
+		    		
+		    		System.out.println(MensagensGeral.ESPACOMAIOR);
+		    		TipoJogador tipoJogador = TipoJogador.values()[tipoPeca-1];
+		    		Cor cor = Cor.values()[i];
+		    		jogador = JogadorFactory.criarJogador(tipoJogador, cor, cor.toString());
+		    		tabuleiro.addJogador(jogador);
+		    	}
+	    	}
+	    	catch(InputMismatchException e) {
+	    		System.out.println(MensagensGeral.msgValorInvalido());
+	    		sc.nextLine();
+	    	}
     	}
     }
     
@@ -205,13 +243,22 @@ public class JogoFacade {
     	else {
     		System.out.println("Posiçoes do tabuleiro: 1 a "+tamanhoTabuleiro);
     		System.out.print("digite a posição para ir: ");
-    		int posicao = sc.nextInt();
-    		while(posicao < 1) {
-    			System.out.println(MensagensGeral.msgValorInvalido());
-    			posicao = sc.nextInt();
+    		Integer posicao = null;
+    		while(posicao == null) {
+	    		try {
+		    		posicao = sc.nextInt();
+		    		while(posicao < 1) {
+		    			System.out.println(MensagensGeral.msgValorInvalido());
+		    			posicao = sc.nextInt();
+		    		}
+		    		sc.nextLine();
+		    		ultimoResultadoDados = posicao;
+	    		}
+	    		catch (InputMismatchException e) {
+					System.out.println(MensagensGeral.msgValorInvalido());
+					sc.nextLine();
+				}
     		}
-    		sc.nextLine();
-    		ultimoResultadoDados = posicao;
     	}
     }
     
@@ -259,10 +306,20 @@ public class JogoFacade {
 	
 	// util
 	public int lerOpcaoCarta() { //metodo para que CasaSurpresa set escolha.
-		int escolha = sc.nextInt();
-		while(escolha > 3 || escolha < 1) {
-			System.out.println(MensagensGeral.msgValorInvalido());
-			escolha = sc.nextInt();
+		Integer escolha = null;
+		while(escolha == null) {
+			try {
+				escolha = sc.nextInt();
+				while(escolha > 3 || escolha < 1) {
+					System.out.println(MensagensGeral.msgValorInvalido());
+					escolha = null;
+				}
+				sc.nextLine();
+			}
+			catch (InputMismatchException e) {
+				System.out.println(MensagensGeral.msgValorInvalido());
+				sc.nextLine();
+			}
 		}
 		sc.nextLine();
 		return escolha;

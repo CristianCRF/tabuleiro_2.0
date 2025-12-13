@@ -1,6 +1,5 @@
 package view;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,7 +14,7 @@ public class PrintaTabuleiro {
 	public static void imprimir(Tabuleiro tabuleiro) {
 		List<Jogador> jogadores = tabuleiro.getJogadores();
 		int tamanhoTabuleiro = tabuleiro.getTamanho();
-		Set<Integer> pulaLinha = new HashSet<>(Arrays.asList(21, 41, 61, 81)); //so para deixar mais limpo o tabuleiro
+		Set<Integer> pulaLinha = new HashSet<>(List.of(21, 41, 61, 81)); //so para deixar mais limpo o tabuleiro
 		
 	    for (int i = 0; i <= tamanhoTabuleiro; i++) {
 	    	StringBuilder conteudo = new StringBuilder();
