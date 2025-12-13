@@ -1,19 +1,9 @@
 package enums;
 
 public enum TipoJogador {
-	JOGADORCOMUM((byte) 1),
-	JOGADORSORTUDO((byte)2),
-	JOGADORAZARADO((byte)3);
-	
-	private final int codigo;
-	
-	TipoJogador(int codigo){
-		this.codigo = codigo;
-	}
-	
-	public int getCodigo() {
-		return codigo;
-	}
+	JOGADORCOMUM,
+	JOGADORSORTUDO,
+	JOGADORAZARADO;
 	
 	public static TipoJogador fromCodigo(byte c) {
 		switch(c) {

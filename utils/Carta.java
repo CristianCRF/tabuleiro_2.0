@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Carta {
 	private byte tirou;
-	private static final Random sortes = new Random(System.currentTimeMillis());
+	private static final Random sortes = new Random();
 
 	public byte getCarta() {
 		return tirou;

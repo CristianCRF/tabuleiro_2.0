@@ -1,31 +1,39 @@
 package jogadores;
 
-import utils.Mensagens;
 import enums.Cor;
 
 public abstract class Jogador {
-	private String corPeca; 
+	private String nomeCorPeca; 
 	private Cor cor;
 	private int casa;
 	private int jogadas;
 	private int moedas; 
+	private boolean preso;
+	private boolean jogarDenovo;
 
-	public Jogador(Cor cor) {
+	public Jogador(Cor cor, String nomeCorPeca) {
+		this.nomeCorPeca = nomeCorPeca;
 		this.cor = cor;
 		casa = 0;
 		jogadas = 0;
 		moedas = 0;
+		preso = false;
+		jogarDenovo = false;
+	}
+	
+	public String getNomeCorPeca() {
+		return nomeCorPeca;
 	}
 
-	public String getCorPeca() {
-		return corPeca;
+	public Cor getCor() {
+		return cor;
 	}
 	
 	public int getCasa() {
 		return casa;
 	}
 
-	public void setCasa(byte casa) { 
+	public void setCasa(int casa) { 
 		this.casa = casa; 
 	}
 	
@@ -45,23 +53,38 @@ public abstract class Jogador {
 		this.moedas = moedas;
 	}
 	
-	protected abstract byte movimento();
+	public boolean getEstadoPreso() {
+        return preso;
+    }
 
-	public String scores(String vencedorCor) {
-		if (!getCorPeca().equals(vencedorCor)) {
-			return "\nPeça " + getCorPeca() + Mensagens.REPETITIVOS[2] + getJogadas() 
-			+ Mensagens.REPETITIVOS[3] + getMoedas()
-			+ ".\nUltima casa: " + getCasa();
-		} else {
-			if (getCasa() == 40) {
-				return "\nNOSSO VENCEDOR " + getCorPeca() + Mensagens.REPETITIVOS[2] + getJogadas() 
-				+ Mensagens.REPETITIVOS[3] + getMoedas()
-				+ "\nUltima casa: " + getCasa();
-			} else {
-				return "\nNOSSO VENCEDOR " + getCorPeca() + Mensagens.REPETITIVOS[2] + getJogadas()
-						+ String.format(".%nUltima casa: Foi ao infinito e alem. (%d)", getCasa());
-			}
-		}
+    public void setEstadoPreso(boolean preso) {
+        this.preso = preso;
+    }
+    
+    public boolean getEstadoDeJogarDenovo() {
+        return jogarDenovo;
+    }
+
+    public void setEstadoDeJogarDenovo(boolean jogarDenovo) {
+        this.jogarDenovo = jogarDenovo;
+    }
+	
+	public void avancar() {
+       casa += 3;
+    }
+
+    public void voltar() {
+       casa -= 3;
+    }
+	
+	public void incrementaJogadas() {
+		jogadas++;
 	}
+	
+	public void incrementaMoedas() {
+		moedas += 1;
+	}
+	
+	public abstract int movimento();
 	
 }

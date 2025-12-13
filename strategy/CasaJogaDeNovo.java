@@ -5,15 +5,16 @@ import facade.JogoFacade;
 import jogadores.Jogador;
 import singleton.Tabuleiro;
 
-public class CasaSimples extends Casa{
-	public CasaSimples(int numero) {
+public class CasaJogaDeNovo extends Casa{
+
+	public CasaJogaDeNovo(int numero) {
 		super(numero);
 	}
-	
-	
+
 	@Override
 	public void aplicarRegra(Jogador jogador, Tabuleiro tabuleiro, JogoFacade jogoFacade) {
-		jogoFacade.mensagensCasas(ResultadoCasas.SIMPLES, jogador);
-		jogador.incrementaMoedas();
+		jogoFacade.mensagensCasas(ResultadoCasas.JOGADENOVO, jogador);
+		jogador.setEstadoDeJogarDenovo(true);
 	}
+
 }
