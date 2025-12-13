@@ -23,7 +23,8 @@ public class JogoFacade {
     private Tabuleiro tabuleiro;
     private int tamanhoTabuleiro;
     private boolean modoDebug = false;
-    private Jogador jogadorAtual, jogadorVencedor;
+    private Jogador jogadorAtual;
+    private Jogador jogadorVencedor;
     private int ultimoResultadoDados;
 
     private JogoFacade() { }
