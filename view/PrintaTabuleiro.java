@@ -15,7 +15,7 @@ public class PrintaTabuleiro {
 	public static void imprimir(Tabuleiro tabuleiro) {
 		List<Jogador> jogadores = tabuleiro.getJogadores();
 		int tamanhoTabuleiro = tabuleiro.getTamanho();
-		Set<Integer> excludedValues = new HashSet<>(Arrays.asList(21, 41, 61, 81)); //so para deixar mais limpo o tabuleiro
+		Set<Integer> pulaLinha = new HashSet<>(Arrays.asList(21, 41, 61, 81)); //so para deixar mais limpo o tabuleiro
 		
 	    for (int i = 0; i <= tamanhoTabuleiro; i++) {
 	    	StringBuilder conteudo = new StringBuilder();
@@ -26,7 +26,7 @@ public class PrintaTabuleiro {
 	    		}
 	    	}
 	    	
-	    	if (excludedValues.contains(i)) {//pula para quebrar linha
+	    	if (pulaLinha.contains(i)) {//pula para quebrar linha
 	    	    System.out.println();
 	    	}
 	    	System.out.print("[" + conteudo + "]");
