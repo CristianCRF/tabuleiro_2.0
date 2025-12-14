@@ -1,7 +1,7 @@
 package facade;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -18,12 +18,13 @@ import view.PrintaTabuleiro;
 
 public class JogoFacade {
 	Scanner sc = new Scanner(System.in);
-	Map<TipoCasa, List<Integer>> config = new HashMap<>();
+	Map<TipoCasa, List<Integer>> config = new EnumMap<>(TipoCasa.class);
     private static JogoFacade instancia;
     private Tabuleiro tabuleiro;
     private int tamanhoTabuleiro;
     private boolean modoDebug = false;
-    private Jogador jogadorAtual, jogadorVencedor;
+    private Jogador jogadorAtual;
+    private Jogador jogadorVencedor;
     private int ultimoResultadoDados;
 
     private JogoFacade() { }
@@ -111,9 +112,9 @@ public class JogoFacade {
     	while(tamanho == null) {
     		try {
 		    	tamanho = sc.nextInt();
-		    	while(tamanho > 100 || tamanho < 10) {
+		    	if(tamanho > 100 || tamanho < 10) {
 		    		System.out.print(MensagensGeral.msgValorInvalido());
-		    		tamanho = sc.nextInt();
+		    		tamanho = null;
 		    	}
     		}
     		catch(InputMismatchException e) {
@@ -180,44 +181,45 @@ public class JogoFacade {
     	while(quantJogadores == null) {
 	    	try {
 		    	quantJogadores = sc.nextInt();
-		    	while(quantJogadores > 6 || quantJogadores < 1) {
+		    	if(quantJogadores > 6 || quantJogadores < 1) {
 		    		System.out.print(MensagensGeral.msgValorInvalido());
-		    		quantJogadores = sc.nextInt();
-		    	}
-		    	System.out.println(MensagensGeral.LIMPARTELA);
-		    	
-		    	System.out.println(MensagensGeral.msgConfigurarTipoJogadores());
-		    	Jogador jogador;
-		    	for(int i=0; i<quantJogadores; i++) {
-		    		System.out.print(MensagensGeral.msgEscolherTiposJogadores(i));
-		    		int tipoPeca; 
-		    		try{tipoPeca = sc.nextInt();}
-		    		catch(InputMismatchException e) {
-		    			System.out.println("valor alterado para Comum.");
-		    			System.out.println(MensagensGeral.msgContinuar());
-		    			sc.nextLine();
-		    			tipoPeca = 1;
-		    		}
-		    		sc.nextLine();
-		    		
-		    		if(tipoPeca > 3 || tipoPeca < 1) {
-		    			System.out.println(MensagensGeral.msgTipoInvalido());
-		    			tipoPeca = 1;
-		    			System.out.println(MensagensGeral.msgContinuar());
-		    			sc.nextLine();
-		    		}
-		    		
-		    		System.out.println(MensagensGeral.ESPACOMAIOR);
-		    		TipoJogador tipoJogador = TipoJogador.values()[tipoPeca-1];
-		    		Cor cor = Cor.values()[i];
-		    		jogador = JogadorFactory.criarJogador(tipoJogador, cor, cor.toString());
-		    		tabuleiro.addJogador(jogador);
+		    		quantJogadores = null;
 		    	}
 	    	}
 	    	catch(InputMismatchException e) {
 	    		System.out.println(MensagensGeral.msgValorInvalido());
 	    		sc.nextLine();
 	    	}
+    	}
+    	
+    	System.out.println(MensagensGeral.LIMPARTELA);
+    	
+    	System.out.println(MensagensGeral.msgConfigurarTipoJogadores());
+    	Jogador jogador;
+    	for(int i=0; i<quantJogadores; i++) {
+    		System.out.print(MensagensGeral.msgEscolherTiposJogadores(i));
+    		int tipoPeca; 
+    		try{tipoPeca = sc.nextInt();}
+    		catch(InputMismatchException e) {
+    			System.out.println("valor alterado para Comum.");
+    			System.out.println(MensagensGeral.msgContinuar());
+    			sc.nextLine();
+    			tipoPeca = 1;
+    		}
+    		sc.nextLine();
+    		
+    		if(tipoPeca > 3 || tipoPeca < 1) {
+    			System.out.println(MensagensGeral.msgTipoInvalido());
+    			tipoPeca = 1;
+    			System.out.println(MensagensGeral.msgContinuar());
+    			sc.nextLine();
+    		}
+    		
+    		System.out.println(MensagensGeral.ESPACOMAIOR);
+    		TipoJogador tipoJogador = TipoJogador.values()[tipoPeca-1];
+    		Cor cor = Cor.values()[i];
+    		jogador = JogadorFactory.criarJogador(tipoJogador, cor, cor.toString());
+    		tabuleiro.addJogador(jogador);
     	}
     }
     
@@ -247,18 +249,18 @@ public class JogoFacade {
     		while(posicao == null) {
 	    		try {
 		    		posicao = sc.nextInt();
-		    		while(posicao < 1) {
+		    		if(posicao < 1) {
 		    			System.out.println(MensagensGeral.msgValorInvalido());
-		    			posicao = sc.nextInt();
+		    			posicao = null;
 		    		}
-		    		sc.nextLine();
-		    		ultimoResultadoDados = posicao;
 	    		}
 	    		catch (InputMismatchException e) {
 					System.out.println(MensagensGeral.msgValorInvalido());
 					sc.nextLine();
 				}
     		}
+    		sc.nextLine();
+    		ultimoResultadoDados = posicao;
     	}
     }
     
