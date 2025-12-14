@@ -253,13 +253,14 @@ public class JogoFacade {
 		    			System.out.println(MensagensGeral.msgValorInvalido());
 		    			posicao = null;
 		    		}
+		    		sc.nextLine();
+		    		
 	    		}
 	    		catch (InputMismatchException e) {
 					System.out.println(MensagensGeral.msgValorInvalido());
 					sc.nextLine();
 				}
     		}
-    		sc.nextLine();
     		ultimoResultadoDados = posicao;
     	}
     }
@@ -312,7 +313,7 @@ public class JogoFacade {
 		while(escolha == null) {
 			try {
 				escolha = sc.nextInt();
-				while(escolha > 3 || escolha < 1) {
+				if(escolha > 3 || escolha < 1) {
 					System.out.println(MensagensGeral.msgValorInvalido());
 					escolha = null;
 				}
@@ -323,7 +324,6 @@ public class JogoFacade {
 				sc.nextLine();
 			}
 		}
-		sc.nextLine();
 		return escolha;
 	}
 	
