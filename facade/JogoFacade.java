@@ -280,6 +280,10 @@ public class JogoFacade {
 	
 	private void aplicarCasa() {
 		tabuleiro.getCasa(jogadorAtual.getCasa()).aplicarRegra(jogadorAtual, tabuleiro, instancia);
+		if(jogadorAtual.getCasa() >= tamanhoTabuleiro) {
+			jogadorVencedor = jogadorAtual;
+			return;
+		}
 	}
 	
 	private void finalizarTurno() {
